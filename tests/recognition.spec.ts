@@ -96,6 +96,37 @@ test("blocked storage still permits in-memory recognition", async ({ page }) => 
   await expect(entries(page)).toHaveCount(4);
 });
 
+test.describe("theme", () => {
+  test.use({ colorScheme: "light" });
+
+  test("toggle switches theme and persists across reloads", async ({ page }, testInfo) => {
+    await page.goto("/");
+    const html = page.locator("html");
+    await expect(html).toHaveAttribute("data-theme", "light");
+    await page.getByRole("button", { name: "Switch to dark theme" }).click();
+    await expect(html).toHaveAttribute("data-theme", "dark");
+    await expect(page.getByRole("button", { name: "Switch to light theme" })).toBeVisible();
+    await page.screenshot({ path: testInfo.outputPath("goodwork-dark.png"), fullPage: true, animations: "disabled" });
+    await page.reload();
+    await expect(html).toHaveAttribute("data-theme", "dark");
+    await page.getByRole("button", { name: "Switch to light theme" }).click();
+    await expect(html).toHaveAttribute("data-theme", "light");
+    await page.reload();
+    await expect(html).toHaveAttribute("data-theme", "light");
+  });
+
+  test("defaults to the system preference and still works with blocked storage", async ({ browser }) => {
+    const context = await browser.newContext({ colorScheme: "dark" });
+    const page = await context.newPage();
+    await page.addInitScript(() => Object.defineProperty(window, "localStorage", { get() { throw new Error("Storage blocked"); } }));
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await page.getByRole("button", { name: "Switch to light theme" }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    await context.close();
+  });
+});
+
 for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
   test(`layout and avatars render at ${viewport.width}px`, async ({ page }, testInfo) => {
     await page.setViewportSize(viewport);

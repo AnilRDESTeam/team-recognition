@@ -5,6 +5,7 @@ import "@fontsource/dm-sans/600.css";
 import "@fontsource/manrope/600.css";
 import "@fontsource/manrope/700.css";
 import "./globals.css";
+import { themeInitScript } from "@/lib/theme";
 
 export const metadata: Metadata = {
   title: "Goodwork | Team Recognition",
@@ -13,7 +14,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>{children}</body>
     </html>
   );
