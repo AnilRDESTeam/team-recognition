@@ -53,6 +53,10 @@ Use **Reset demo data** in the footer and confirm to remove added recognition
 and restore the sample feed. Cancel or Escape leaves data unchanged. Clearing
 browser site data also resets the demo.
 
+The light/dark theme toggle in the top bar saves its choice under
+`team-recognition:theme`. Without a saved choice the app follows the system
+color scheme.
+
 Do not enter real employee information, confidential messages, or credentials.
 Browser-local data is not encrypted and this is not a production multi-user
 service. Recognition messages are rendered as text, not HTML.

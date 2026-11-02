@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowDownLeft, ArrowUpRight, Check, CheckCircle2, ChevronRight, Handshake, Heart, Lightbulb, MessageSquare, Plus, RotateCcw, Search, Sparkles, Target, Users, X, type LucideIcon } from "lucide-react";
+import ThemeToggle from "@/components/theme-toggle";
 import { badges, CURRENT_USER_ID, loadRecognitions, MAX_MESSAGE_LENGTH, newestFirst, saveRecognitions, seedRecognitions, team, validateRecognition, type FormErrors, type Recognition, type RecognitionInput, type TeamMember } from "@/lib/recognition";
 
 const badgeIcons: Record<string, LucideIcon> = { handshake: Handshake, sparkles: Sparkles, lightbulb: Lightbulb, target: Target };
@@ -101,7 +102,7 @@ export default function RecognitionApp() {
       <header className="topbar"><div className="topbar-inner">
         <a className="brand" href="#main" aria-label="Goodwork home"><span className="brand-symbol"><Sparkles size={22} /></span>goodwork<span className="brand-dot">.</span></a>
         <nav aria-label="Main navigation"><a className="nav-link active" href="#feed"><Heart size={17} />Recognition</a></nav>
-        <div className="identity"><span className="demo-label">Dummy data</span><Avatar member={currentUser} size={36} /><div><strong>Alex Morgan</strong><span>Demo user</span></div></div>
+        <div className="identity"><ThemeToggle /><span className="demo-label">Dummy data</span><Avatar member={currentUser} size={36} /><div><strong>Alex Morgan</strong><span>Demo user</span></div></div>
       </div></header>
 
       <main id="main" className="workspace">
